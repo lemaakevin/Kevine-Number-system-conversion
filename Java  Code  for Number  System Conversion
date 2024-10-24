@@ -1,0 +1,143 @@
+
+package com.example.numberconverter;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class Home extends AppCompatActivity {
+
+    EditText inputField;
+    Button decBtn, binBtn, octBtn, hexBtn;
+    TextView resultField;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        // Initialize views
+        inputField = findViewById(R.id.input);
+        decBtn = findViewById(R.id.dec_btn);
+        binBtn = findViewById(R.id.bin_btn);
+        octBtn = findViewById(R.id.oct_btn);
+        hexBtn = findViewById(R.id.hex_btn);
+        resultField = findViewById(R.id.result);
+
+        // Decimal Button Click Listener
+        decBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertToDecimal();
+            }
+        });
+
+        // Binary Button Click Listener
+        binBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertToBinary();
+            }
+        });
+
+        // Octal Button Click Listener
+        octBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertToOctal();
+            }
+        });
+
+        // Hexadecimal Button Click Listener
+        hexBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertToHexadecimal();
+            }
+        });
+    }
+
+    private void convertToDecimal() {
+        try {
+            String input = inputField.getText().toString();
+            int number = Integer.parseInt(input);
+            String result = input + " = " + number + " as decimal\n";
+            result += "No conversion needed as it's already in decimal";
+            resultField.setText(result);
+        } catch (NumberFormatException e) {
+            showError();
+        }
+    }
+
+    private void convertToBinary() {
+        try {
+            String input = inputField.getText().toString();
+            int number = Integer.parseInt(input);
+            String binary = Integer.toBinaryString(number);
+            String working = showBinarySteps(number);
+            resultField.setText(input + " = " + binary + " as binary\n" + working);
+        } catch (NumberFormatException e) {
+            showError();
+        }
+    }
+
+    private void convertToOctal() {
+        try {
+            String input = inputField.getText().toString();
+            int number = Integer.parseInt(input);
+            String octal = Integer.toOctalString(number);
+            String working = showOctalSteps(number);
+            resultField.setText(input + " = " + octal + " as octal\n" + working);
+        } catch (NumberFormatException e) {
+            showError();
+        }
+    }
+
+    private void convertToHexadecimal() {
+        try {
+            String input = inputField.getText().toString();
+            int number = Integer.parseInt(input);
+            String hex = Integer.toHexString(number).toUpperCase();
+            String working = showHexadecimalSteps(number);
+            resultField.setText(input + " = " + hex + " as hexadecimal\n" + working);
+        } catch (NumberFormatException e) {
+            showError();
+        }
+    }
+
+    // Binary Conversion steps
+    private String showBinarySteps(int number) {
+        StringBuilder steps = new StringBuilder();
+        int temp = number;
+        steps.append("Steps for Binary Conversion:\n");
+
+        while (temp > 0) {
+            int remainder = temp % 2;
+            steps.append(temp + " ÷ 2 = " + (temp / 2) + " remainder " + remainder + "\n");
+            temp = temp / 2;
+        }
+        steps.append("Read remainders from bottom to top.");
+        return steps.toString();
+    }
+
+    // Octal Conversion steps
+    private String showOctalSteps(int number) {
+        StringBuilder steps = new StringBuilder();
+        int temp = number;
+        steps.append("Steps for Octal Conversion:\n");
+
+        while (temp > 0) {
+            int remainder = temp % 8;
+            steps.append(temp + " ÷ 8 = " + (temp / 8) + " remainder " + remainder + "\n");
+            temp = temp / 8;
+        }
+        steps.append("Read remainders from bottom to top.");
+        return steps.toString();
+    }
+
+    // Hexadecimal Conversion steps
+ 
